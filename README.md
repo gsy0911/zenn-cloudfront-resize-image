@@ -1,0 +1,1 @@
+# zenn-cloudfront-resize-image
