@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "zenn-cloudfront-resize-image"
+version = "0.1.0"
+description = ""
+authors = ["gsy0911 <yoshiki0911@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+boto3 = "^1.26.155"
+pillow = "^9.5.0"
+
+[tool.poetry.group.dev.dependencies]
+jupyterlab = "^3.5.3"
+
+[tool.poetry.group.lint.dependencies]
+isort = "^5.10.1"
+black = "^22.12.0"
+mypy = "^0.991"
+flake8 = "^4.0.1"
+pyproject-flake8 = "^0.0.1-alpha.2"
+flake8-builtins = "^1.5.3"
+pep8-naming = "^0.12.1"
+flake8-cognitive-complexity = "^0.1.0"
+
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.black]
+target-version = ['py39']
+line-length = 120
+exclude = """
+/(
+    .git
+    | .venv
+    | infrastructure/cdk.out
+    | infrastructure/node_modules
+    | node_modules
+    | .mypy_cache
+    | .pytest_cache
+    | data
+    | docs
+    | htmlcov
+    | notebook
+/)
+"""
+
+[tool.isort]
+line_length = 120
+multi_line_output = 3
+include_trailing_comma = true
+profile = "black"
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+
+# options: https://flake8.pycqa.org/en/latest/user/options.html
+[tool.flake8]
+max-line-length = 120
+max-complexity = 20
+ignore = "E203,E266,W503"
+per-file-ignores = "*/__init__.py:F401"
+max-cognitive-complexity = 20

@@ -34,10 +34,10 @@ export class CloudFrontAssetsStack extends Stack {
 
     // Lambda@Edgeの参照
     const viewerRequestVersionParam = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'viewer-request-param', {
-      parameterName: `/${prefix}/assets-stack/lambda-edge/node/viewer-request`,
+      parameterName: `/${prefix}/assets-stack/lambda-edge/python/viewer-request`,
     }).stringValue;
     const originResponseVersionParam = aws_ssm.StringParameter.fromStringParameterAttributes(this, 'origin-response-param', {
-      parameterName: `/${prefix}/assets-stack/lambda-edge/node/origin-response`,
+      parameterName: `/${prefix}/assets-stack/lambda-edge/python/origin-response`,
     }).stringValue;
     const edgeViewerRequestVersion = aws_lambda.Version.fromVersionArn(this, "viewer-request-version", viewerRequestVersionParam)
     const edgeOriginResponseVersion = aws_lambda.Version.fromVersionArn(this, "origin-response-version", originResponseVersionParam)
@@ -65,7 +65,7 @@ export class CloudFrontAssetsStack extends Stack {
         viewerProtocolPolicy: aws_cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: new aws_cloudfront.CachePolicy(this, "cache-policy", {
           cachePolicyName: "cache-policy",
-          queryStringBehavior: aws_cloudfront.CacheQueryStringBehavior.allowList("w", "h", "fit", "extension", "quality")
+          queryStringBehavior: aws_cloudfront.CacheQueryStringBehavior.allowList("d", "w", "h", "fit", "extension", "quality")
         })
 
       },
