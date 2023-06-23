@@ -6,7 +6,6 @@ const AWS = require('aws-sdk');
 const S3 = new AWS.S3({region: "ap-northeast-1"});
 const Sharp = require('sharp');
 
-
 // set the S3 endpoints
 const BUCKET = 'your-bucket-here';
 
