@@ -5,7 +5,6 @@ import { Environment } from 'aws-cdk-lib';
 const accountId: string = "000011112222"
 const s3BucketName: string = "your-buket"
 
-/**  */
 export const cfAssetsParams: ICfAssetsStack = {
   cloudfront: {
     certificate: "arn:aws:acm:us-east-1:000011112222:certificate/aaaabbbb-cccc-dddd-eeee-ffffgggghhhh",
