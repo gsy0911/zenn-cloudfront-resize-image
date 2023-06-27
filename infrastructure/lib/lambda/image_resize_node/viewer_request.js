@@ -4,7 +4,6 @@ const querystring = require('querystring');
 
 // defines the allowed dimensions, default dimensions and how much variance from allowed
 // dimension is allowed.
-
 const variables = {
   allowedDimension: [{w: 100, h: 100}, {w: 200, h: 200}, {w: 300, h: 300}, {w: 400, h: 400}],
   defaultDimension: {w: 200, h: 200},
@@ -31,14 +30,12 @@ exports.handler = (event, context, callback) => {
   const dimensionMatch = params.d.split("x");
 
   // set the width and height parameters
-  let width = dimensionMatch[1];
-  let height = dimensionMatch[2];
+  let width = parseInt(dimensionMatch[0]);
+  let height = parseInt(dimensionMatch[1]);
 
   // parse the prefix, image name and extension from the uri.
   // In our case /images/image.jpg
-
   const match = fwdUri.match(/(.*)\/(.*)\.(.*)/);
-
   let prefix = match[1];
   let imageName = match[2];
   let extension = match[3];
@@ -49,7 +46,6 @@ exports.handler = (event, context, callback) => {
   // calculate the acceptable variance. If image dimension is 105 and is within acceptable
   // range, then in our case, the dimension would be corrected to 100.
   let variancePercent = (variables.variance / 100);
-
   for (let dimension of variables.allowedDimension) {
     let minWidth = dimension.w - (dimension.w * variancePercent);
     let maxWidth = dimension.w + (dimension.w * variancePercent);
