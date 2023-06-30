@@ -5,7 +5,5 @@ import * as lib from '../lib/';
 
 const app = new cdk.App();
 const nodeLambdaEdge = new lib.AssetsNodeLambdaEdgeStack(app, "zenn-cf-resize-node-lambda", lib.assetsLambdaEdgeParams, {env: lib.envUsEast1})
-const pythonLambdaEdge = new lib.AssetsPythonLambdaEdgeStack(app, "zenn-cf-resize-python-lambda", lib.assetsLambdaEdgeParams, {env: lib.envUsEast1})
 const cloudFront = new lib.CloudFrontAssetsStack(app, "zenn-cf-resize-cloudfront", lib.cfAssetsParams, {env: lib.envApNortheast1})
 cloudFront.addDependency(nodeLambdaEdge)
-// cloudFront.addDependency(pythonLambdaEdge)

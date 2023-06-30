@@ -67,7 +67,7 @@ export class AssetsNodeLambdaEdgeStack extends Stack {
 
     const dir = path.resolve(__dirname, 'lambda', 'image_resize_node')
     const viewerRequestCommand = ["bash", "-c", [
-      `cp viewer_request.js package.json /asset-output`,
+      `cp viewer_request.js utils.js package.json /asset-output`,
       "cd /asset-output",
       "npm install querystring --production --prefix .",
     ].join(" && ")]
@@ -94,7 +94,7 @@ export class AssetsNodeLambdaEdgeStack extends Stack {
       language: "node",
     })
     const originResponseCommand = ["bash", "-c", [
-      `cp origin_response.js package.json /asset-output`,
+      `cp origin_response.js utils.js package.json /asset-output`,
       "cd /asset-output",
       "npm install querystring --production --prefix .",
       "npm install aws-sdk --production --prefix .",
@@ -122,72 +122,6 @@ export class AssetsNodeLambdaEdgeStack extends Stack {
       func: edgeOriginResponse,
       cfType: "origin-response",
       language: "node",
-    })
-  }
-}
-
-
-export class AssetsPythonLambdaEdgeStack extends Stack {
-
-  constructor(scope: Construct, id: string, params: IAssetsLambdaEdgeStack, props?: StackProps) {
-    super(scope, id, props);
-
-    const role = new aws_iam.Role(this, 'lambdaRole', {
-      roleName: "image-edge-python-role",
-      assumedBy: new aws_iam.CompositePrincipal(
-        new aws_iam.ServicePrincipal('lambda.amazonaws.com'),
-        new aws_iam.ServicePrincipal('edgelambda.amazonaws.com'),
-      ),
-      managedPolicies: [
-        aws_iam.ManagedPolicy.fromManagedPolicyArn(this, 'cloudwatch', 'arn:aws:iam::aws:policy/CloudWatchFullAccess')
-      ],
-      inlinePolicies: {
-        "accessS3": new aws_iam.PolicyDocument({
-          statements: [
-            new aws_iam.PolicyStatement({
-              effect: aws_iam.Effect.ALLOW,
-              resources: [
-                `arn:aws:s3:::${params.s3BucketName}/*`,
-                `arn:aws:s3:::${params.s3BucketName}`,
-              ],
-              actions: ['s3:*']
-            })
-          ]
-        })
-      }
-    })
-    const edgeViewerRequest = new PythonFunction(this, 'edge-python-viewer-request', {
-      functionName: "image-viewer-request-python",
-      entry: './lib/lambda/image_resize_python/viewer_request',
-      index: 'handler.py',
-      handler: 'handler',
-      runtime: aws_lambda.Runtime.PYTHON_3_9,
-      timeout: Duration.seconds(5),
-      memorySize: 128,
-      role: role
-    })
-    registerFunction({
-      constructor: this,
-      func: edgeViewerRequest,
-      cfType: "viewer-request",
-      language: "python",
-    })
-
-    const edgeOriginResponse = new PythonFunction(this, 'edge-python-origin-response', {
-      functionName: "image-origin-response-python",
-      entry: './lib/lambda/image_resize_python/origin_response',
-      index: 'handler.py',
-      handler: 'handler',
-      runtime: aws_lambda.Runtime.PYTHON_3_9,
-      timeout: Duration.seconds(30),
-      memorySize: 512,
-      role: role
-    })
-    registerFunction({
-      constructor: this,
-      func: edgeOriginResponse,
-      cfType: "origin-response",
-      language: "python",
     })
   }
 }

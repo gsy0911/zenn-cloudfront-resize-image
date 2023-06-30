@@ -3,7 +3,6 @@ export {
 } from './CloudFrontAssetsStack';
 export {
   AssetsNodeLambdaEdgeStack,
-  AssetsPythonLambdaEdgeStack
 } from './LambdaEdgeStack'
 export {
   cfAssetsParams,

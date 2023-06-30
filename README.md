@@ -38,7 +38,6 @@ $ cp paramsExample.ts params.ts
 # in infrastructure directory
 $ cdk ls
 zenn-cf-resize-node-lambda
-zenn-cf-resize-python-lambda
 zenn-cf-resize-cloudfront
 
 $ cdk deploy zenn-cf-resize-cloudfront
