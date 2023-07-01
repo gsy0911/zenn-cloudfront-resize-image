@@ -7,11 +7,11 @@
 ![](./cloudfront_resize_image.png)
 
 
-1. Access the server at `https://your.domain.com/images/some_file.jpg?d=200x200`.
-2. Use `Lambda@Edge` to transform the URL to `https://your.domain.com/images/200x200/webp/some_file.jpg`.
+1. Access the server at `https://your.domain.com/images/some_file.jpg?w=1280&h=960`.
+2. Use `Lambda@Edge` to transform the URL to `https://your.domain.com/images/w=1280&h=960&quality=50&ext=webp&fit=inside/some_file.jpg`.
 3. Access S3 using the transformed URL.
 4. If the file exists in S3, proceed to step 6; if it doesn't exist, perform step 5.
-5. Convert the image at the original access location, `images/some_file.jpg`, and save it as `images/200x200/webp/some_file.jpg`.
+5. Convert the image at the original access location, `images/some_file.jpg`, and save it as `images/w=1280&h=960&quality=50&ext=webp&fit=inside/some_file.jpg`.
 6. Return either the retrieved file or the converted file.
 
 
